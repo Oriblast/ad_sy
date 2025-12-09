@@ -1,0 +1,46 @@
+.
+GPT-4o mini
+Application des configurations YAML
+
+Pour faire fonctionner les trois applications avec le fichier YAML que j'ai fourni précédemment, chaque application doit être correctement configurée dans le cluster Kubernetes. Voici les étapes à suivre pour s'assurer que tout fonctionne :
+Vérifications des points essentiels
+
+    Services définis : Assurez-vous que le fichier YAML inclut bien les services pour chacune des applications (service-app1, service-app2, service-app3).
+
+    Conteneurs d'application : Chaque application doit être empaquetée dans un conteneur Docker et le service doit pointer vers le bon conteneur. Voici un exemple de Dockerfile pour une application simple :
+
+Dockerfile
+
+# Dockerfile pour une application simple
+FROM nginx:alpine
+COPY app1.html /usr/share/nginx/html/index.html
+
+Répétez cela pour chaque application avec le bon contenu HTML.
+
+Déploiement des applications : Vous devez exécuter les commandes suivantes pour déployer vos services et votre Ingress :
+
+bash
+
+kubectl apply -f votre_fichier.yaml
+
+Accès aux applications : Lorsque vous accédez aux applications via un navigateur, utilisez les hôtes spécifiés dans vos règles Ingress. Assurez-vous que votre /etc/hosts (sur votre machine hôte) est mis à jour pour rediriger ces hôtes vers l'adresse IP de votre cluster (par exemple, 192.168.56.110).
+
+Exemple d'entrée dans le fichier hosts :
+
+Code
+
+    192.168.56.110  app1.com
+    192.168.56.110  app2.com
+    192.168.56.110  app3.com
+
+Exécution
+
+Assurez-vous que K3s fonctionne correctement et que toutes les ressources sont disponibles :
+
+    Utilisez kubectl get pods pour vérifier que vos pods d'application sont en cours d'exécution.
+    Utilisez kubectl get svc pour vérifier que les services sont configurés correctement.
+    Utilisez kubectl get ingress pour vous assurer que votre resource Ingress est active.
+
+Résumé
+
+En suivant ces étapes, les trois applications doivent fonctionner correctement avec le fichier YAML fourni. Si vous rencontrez des problèmes, vérifiez les logs des pods avec kubectl logs <nom_pod> pour plus d'informations. Si vous avez d'autres questions ou des problèmes spécifiques, n'hésitez pas à me le faire savoir !
